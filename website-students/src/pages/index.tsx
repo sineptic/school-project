@@ -1,3 +1,9 @@
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Input } from "@/components/ui/input";
 import { InferGetStaticPropsType } from "next";
 import { getStaticProps } from "next/dist/build/templates/pages";
 
@@ -20,23 +26,36 @@ class FoodInfo {
   }
 }
 
+const CountInput = () => {
+  return (
+    <div>
+      <Input type="number" required className="w-14" />
+    </div>
+  );
+};
+
 const FoodItem = ({ info }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <div className="flex justify-between">
-      <div>
-        <div className="scroll-m-20 text-lg tracking-tight">
-          {info.name}
-          <div className="inline pl-2 text-sm font-medium leading-none">
-            {info.mass} {"г"}
+      <HoverCard>
+        <HoverCardTrigger>
+          <div>
+            <div className="scroll-m-20 text-lg tracking-tight">
+              {info.name}
+              <div className="inline pl-2 text-sm font-medium leading-none">
+                {info.mass} {"г"}
+              </div>
+            </div>
+            <div className="text-muted-foreground">
+              {info.composition.join(", ")}
+            </div>
           </div>
-        </div>
-        <div className="text-muted-foreground">
-          {info.composition.join(", ")}
-        </div>
-      </div>
+        </HoverCardTrigger>
+        <HoverCardContent>{"подробности состава"}</HoverCardContent>
+      </HoverCard>
       <div className="pl-16 float-right flex place-self-center">
-        <div className="pr-4">{info.cost} руб.</div>
-        SOMEBUTTON
+        <div className="pr-4 place-self-center">{info.cost} руб.</div>
+        <CountInput />
       </div>
     </div>
   );
